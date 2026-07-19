@@ -260,11 +260,6 @@ fun PrivateChatScreen(
                         .imePadding(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Attachment Button
-                    IconButton(onClick = { imagePickerLauncher.launch("image/*") }) {
-                        Icon(Icons.Default.AddPhotoAlternate, contentDescription = "Send Image", tint = Indigo40)
-                    }
-
                     // Text input field
                     OutlinedTextField(
                         value = typedText,
@@ -280,116 +275,26 @@ fun PrivateChatScreen(
 
                     Spacer(modifier = Modifier.width(6.dp))
 
-                    // Voice / Send Action Button
-                    if (typedText.trim().isEmpty()) {
-                        // Voice Recorder Button
-                        Box(
-                            modifier = Modifier
-                                .size(48.dp)
-                                .background(
-                                    if (isRecording) Color.Red else Indigo40,
-                                    shape = CircleShape
+                    // Send Text Button
+                    IconButton(
+                        onClick = {
+                            if (typedText.trim().isNotEmpty()) {
+                                chatViewModel.sendMessage(
+                                    recipientId = chatId,
+                                    content = typedText.trim(),
+                                    type = "TEXT",
+                                    replyToId = replyToMessage?.id
                                 )
-                                .clip(CircleShape)
-                                .combinedClickable(
-                                    onClick = {
-                                        if (!hasMicPermission) {
-                                            micPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
-                                        } else {
-                                            Toast.makeText(context, "Hold to record audio note", Toast.LENGTH_SHORT).show()
-                                        }
-                                    },
-                                    onLongClick = {
-                                        if (hasMicPermission) {
-                                            isRecording = true
-                                            voiceFile = File(context.cacheDir, "record_${System.currentTimeMillis()}.3gp")
-                                            mediaRecorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                                                MediaRecorder(context)
-                                            } else {
-                                                MediaRecorder()
-                                            }.apply {
-                                                setAudioSource(MediaRecorder.AudioSource.MIC)
-                                                setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
-                                                setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
-                                                setOutputFile(voiceFile!!.absolutePath)
-                                                try {
-                                                    prepare()
-                                                    start()
-                                                } catch (e: Exception) {
-                                                    e.printStackTrace()
-                                                    isRecording = false
-                                                }
-                                            }
-                                        }
-                                    }
-                                ),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = if (isRecording) Icons.Default.MicOff else Icons.Default.Mic,
-                                contentDescription = "Voice Message",
-                                tint = Color.White
-                            )
-
-                            // Detect release of long click to stop recording
-                            if (isRecording) {
-                                DisposableEffect(Unit) {
-                                    onDispose {
-                                        if (isRecording) {
-                                            try {
-                                                mediaRecorder?.stop()
-                                                mediaRecorder?.release()
-                                                mediaRecorder = null
-                                                isRecording = false
-                                                
-                                                voiceFile?.let { file ->
-                                                    if (file.exists() && file.length() > 0) {
-                                                        scope.launch {
-                                                            val bytes = file.readBytes()
-                                                            val base64Voice = Base64.encodeToString(bytes, Base64.DEFAULT)
-                                                            chatViewModel.sendMessage(
-                                                                recipientId = chatId,
-                                                                content = "Sent a voice message",
-                                                                type = "VOICE",
-                                                                fileBytesBase64 = base64Voice,
-                                                                fileExtension = "3gp",
-                                                                replyToId = replyToMessage?.id
-                                                            )
-                                                            replyToMessage = null
-                                                        }
-                                                    }
-                                                }
-                                            } catch (e: Exception) {
-                                                e.printStackTrace()
-                                                isRecording = false
-                                            }
-                                        }
-                                    }
-                                }
+                                typedText = ""
+                                replyToMessage = null
                             }
-                        }
-                    } else {
-                        // Send Text Button
-                        IconButton(
-                            onClick = {
-                                if (typedText.trim().isNotEmpty()) {
-                                    chatViewModel.sendMessage(
-                                        recipientId = chatId,
-                                        content = typedText.trim(),
-                                        type = "TEXT",
-                                        replyToId = replyToMessage?.id
-                                    )
-                                    typedText = ""
-                                    replyToMessage = null
-                                }
-                            },
-                            colors = IconButtonDefaults.iconButtonColors(
-                                containerColor = Indigo40
-                            ),
-                            modifier = Modifier.size(48.dp)
-                        ) {
-                            Icon(Icons.Default.Send, contentDescription = "Send", tint = Color.White)
-                        }
+                        },
+                        colors = IconButtonDefaults.iconButtonColors(
+                            containerColor = Indigo40
+                        ),
+                        modifier = Modifier.size(48.dp)
+                    ) {
+                        Icon(Icons.Default.Send, contentDescription = "Send", tint = Color.White)
                     }
                 }
             }

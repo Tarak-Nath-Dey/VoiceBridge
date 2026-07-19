@@ -63,7 +63,7 @@ class ChatRepository @Inject constructor(
         }
     }
 
-    private fun showNotification(title: String, text: String) {
+    private fun showNotification(title: String, text: String, chatId: String? = null) {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
             val builder = NotificationCompat.Builder(context, "voicebridge_channel")
                 .setSmallIcon(android.R.drawable.ic_dialog_info)
@@ -71,6 +71,20 @@ class ChatRepository @Inject constructor(
                 .setContentText(text)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true)
+
+            if (chatId != null) {
+                val intent = android.content.Intent(context, com.voicebridge.ui.MainActivity::class.java).apply {
+                    flags = android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP or android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    putExtra("chatId", chatId)
+                }
+                val pendingIntent = android.app.PendingIntent.getActivity(
+                    context,
+                    System.currentTimeMillis().toInt(),
+                    intent,
+                    android.app.PendingIntent.FLAG_UPDATE_CURRENT or android.app.PendingIntent.FLAG_IMMUTABLE
+                )
+                builder.setContentIntent(pendingIntent)
+            }
 
             try {
                 NotificationManagerCompat.from(context).notify(System.currentTimeMillis().toInt(), builder.build())
@@ -629,9 +643,9 @@ class ChatRepository @Inject constructor(
                     
                     // Show Notification
                     if (packet.recipientId == "EVERYONE") {
-                        showNotification("New Broadcast in Everyone", "${packet.senderName}: $previewText")
+                        showNotification("New Broadcast in Everyone", "${packet.senderName}: $previewText", "EVERYONE")
                     } else {
-                        showNotification("New Message from ${packet.senderName}", previewText)
+                        showNotification("New Message from ${packet.senderName}", previewText, packet.senderId)
                     }
                 } else {
                     // Update existing chat with new name/avatar if available
@@ -643,9 +657,9 @@ class ChatRepository @Inject constructor(
                     
                     // Show Notification
                     if (packet.recipientId == "EVERYONE") {
-                        showNotification("New Broadcast in Everyone", "${packet.senderName}: $previewText")
+                        showNotification("New Broadcast in Everyone", "${packet.senderName}: $previewText", "EVERYONE")
                     } else {
-                        showNotification("New Message from ${packet.senderName}", previewText)
+                        showNotification("New Message from ${packet.senderName}", previewText, packet.senderId)
                     }
                 }
 
@@ -686,7 +700,7 @@ class ChatRepository @Inject constructor(
                 getOrDeriveSharedKey(user, newFriend)
 
                 // Trigger a UI refresh if necessary, or let Flow handle it.
-                showNotification("New Friend Request", "${packet.senderName} sent you a friend request.")
+                showNotification("New Friend Request", "${packet.senderName} sent you a friend request.", packet.senderId)
 
                 // Create a temporary Chat in list to show request
                 val chat = ChatEntity(

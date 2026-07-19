@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:2:1-75:12
-INJECTED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:2:1-75:12
-INJECTED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:2:1-75:12
-INJECTED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:2:1-75:12
+ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:2:1-76:12
+INJECTED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:2:1-76:12
+INJECTED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:2:1-76:12
+INJECTED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:2:1-76:12
 MERGED from [com.google.android.gms:play-services-nearby:18.7.0] C:\Users\tarak\.gradle\caches\8.10.2\transforms\47f5ee980997ba388a589d2c923d7f40\transformed\play-services-nearby-18.7.0\AndroidManifest.xml:2:1-16:12
 MERGED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\tarak\.gradle\caches\8.10.2\transforms\9f9062edf6b204243012d452adc70dd2\transformed\play-services-base-18.0.1\AndroidManifest.xml:16:1-24:12
 MERGED from [com.google.android.gms:play-services-tasks:18.0.1] C:\Users\tarak\.gradle\caches\8.10.2\transforms\4fab1a25c661e243586dd2cacc3f44bf\transformed\play-services-tasks-18.0.1\AndroidManifest.xml:2:1-6:12
@@ -192,8 +192,8 @@ ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:36:5-89
 	android:name
 		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:36:19-61
 application
-ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:38:5-73:19
-INJECTED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:38:5-73:19
+ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:38:5-74:19
+INJECTED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:38:5-74:19
 MERGED from [com.google.android.gms:play-services-nearby:18.7.0] C:\Users\tarak\.gradle\caches\8.10.2\transforms\47f5ee980997ba388a589d2c923d7f40\transformed\play-services-nearby-18.7.0\AndroidManifest.xml:9:5-14:19
 MERGED from [com.google.android.gms:play-services-nearby:18.7.0] C:\Users\tarak\.gradle\caches\8.10.2\transforms\47f5ee980997ba388a589d2c923d7f40\transformed\play-services-nearby-18.7.0\AndroidManifest.xml:9:5-14:19
 MERGED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\tarak\.gradle\caches\8.10.2\transforms\9f9062edf6b204243012d452adc70dd2\transformed\play-services-base-18.0.1\AndroidManifest.xml:19:5-23:19
@@ -235,49 +235,51 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\ta
 	android:name
 		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:39:9-47
 activity#com.voicebridge.ui.MainActivity
-ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:47:9-56:20
+ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:47:9-57:20
+	android:launchMode
+		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:50:13-44
 	android:windowSoftInputMode
-		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:51:13-55
+		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:52:13-55
 	android:exported
 		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:49:13-36
 	android:theme
-		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:50:13-53
+		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:51:13-53
 	android:name
 		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:48:13-44
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:52:13-55:29
+ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:53:13-56:29
 action#android.intent.action.MAIN
-ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:53:17-69
+ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:54:17-69
 	android:name
-		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:53:25-66
+		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:54:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:54:17-77
+ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:55:17-77
 	android:name
-		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:54:27-74
+		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:55:27-74
 provider#androidx.core.content.FileProvider
-ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:58:9-66:20
+ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:59:9-67:20
 	android:grantUriPermissions
-		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:62:13-47
+		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:63:13-47
 	android:authorities
-		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:60:13-63
+		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:61:13-63
 	android:exported
-		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:61:13-37
+		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:62:13-37
 	android:name
-		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:59:13-62
+		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:60:13-62
 meta-data#android.support.FILE_PROVIDER_PATHS
-ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:63:13-65:54
+ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:64:13-66:54
 	android:resource
-		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:65:17-51
+		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:66:17-51
 	android:name
-		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:64:17-67
+		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:65:17-67
 service#com.voicebridge.data.network.MeshNetworkService
-ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:68:9-71:40
+ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:69:9-72:40
 	android:exported
-		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:71:13-37
+		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:72:13-37
 	android:foregroundServiceType
-		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:70:13-60
+		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:71:13-60
 	android:name
-		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:69:13-60
+		ADDED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml:70:13-60
 uses-sdk
 INJECTED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\25CSE134\VoiceBridge\app\src\main\AndroidManifest.xml

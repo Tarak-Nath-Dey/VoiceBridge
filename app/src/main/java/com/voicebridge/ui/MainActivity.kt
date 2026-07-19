@@ -12,6 +12,9 @@ import android.content.Intent
 import androidx.activity.ComponentActivity
 import com.voicebridge.data.network.MeshNetworkService
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.LaunchedEffect
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.channels.BufferOverflow
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.layout.Box
@@ -28,7 +31,6 @@ import androidx.navigation.compose.rememberNavController
 import com.voicebridge.ui.navigation.Screen
 import com.voicebridge.ui.screens.MainScreen
 import com.voicebridge.ui.screens.PrivateChatScreen
-import com.voicebridge.ui.screens.QrScreen
 import com.voicebridge.ui.screens.SetupScreen
 import com.voicebridge.ui.theme.VoiceBridgeTheme
 import com.voicebridge.ui.viewmodel.ChatViewModel
@@ -39,6 +41,11 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private var onPermissionsResultCallback: (() -> Unit)? = null
+    
+    private val pendingNavigation = MutableSharedFlow<String>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -57,6 +64,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
+        handleIntent(intent)
+        
         // Create Notification Channel
         createNotificationChannel()
 
@@ -71,6 +80,7 @@ class MainActivity : ComponentActivity() {
                 val userViewModel: UserViewModel = viewModel()
                 val chatViewModel: ChatViewModel = viewModel()
                 
+
                 onPermissionsResultCallback = {
                     startMeshService()
                 }
@@ -108,32 +118,31 @@ class MainActivity : ComponentActivity() {
                                 chatViewModel = chatViewModel,
                                 onNavigateToChat = { chatId ->
                                     navController.navigate(Screen.PrivateChat.createRoute(chatId))
-                                },
-                                onNavigateToQr = {
-                                    navController.navigate(Screen.QrCode.route)
                                 }
                             )
                         }
                         
                         composable(Screen.PrivateChat.route) { backStackEntry ->
-                            val chatId = backStackEntry.arguments?.getString("chatId") ?: ""
+                            val chatId = backStackEntry.arguments?.getString("chatId") ?: return@composable
                             PrivateChatScreen(
                                 chatId = chatId,
                                 chatViewModel = chatViewModel,
-                                onNavigateBack = {
-                                    navController.popBackStack()
-                                }
+                                onNavigateBack = { navController.popBackStack() }
                             )
                         }
+                    }
 
-                        composable(Screen.QrCode.route) {
-                            QrScreen(
-                                userViewModel = userViewModel,
-                                chatViewModel = chatViewModel,
-                                onNavigateBack = {
-                                    navController.popBackStack()
+                    if (isProfileCreated == true) {
+                        LaunchedEffect(Unit) {
+                            pendingNavigation.collect { chatId ->
+                                if (chatId == "EVERYONE") {
+                                    navController.popBackStack(Screen.Main.route, inclusive = false)
+                                } else {
+                                    navController.navigate(Screen.PrivateChat.createRoute(chatId)) {
+                                        launchSingleTop = true
+                                    }
                                 }
-                            )
+                            }
                         }
                     }
                 }
@@ -192,6 +201,19 @@ class MainActivity : ComponentActivity() {
             }
             val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleIntent(intent)
+    }
+
+    private fun handleIntent(intent: Intent?) {
+        val chatId = intent?.getStringExtra("chatId")
+        if (chatId != null) {
+            pendingNavigation.tryEmit(chatId)
+            intent.removeExtra("chatId")
         }
     }
 

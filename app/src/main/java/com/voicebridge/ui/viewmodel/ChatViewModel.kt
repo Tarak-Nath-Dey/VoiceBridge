@@ -78,6 +78,10 @@ class ChatViewModel @Inject constructor(
         context.stopService(intent)
         ContextCompat.startForegroundService(context, intent)
     }
+    
+    fun restartP2P() {
+        nearbyConnectionManager.restartP2P()
+    }
 
     fun stopOfflineMesh() {
         val intent = Intent(context, MeshNetworkService::class.java)

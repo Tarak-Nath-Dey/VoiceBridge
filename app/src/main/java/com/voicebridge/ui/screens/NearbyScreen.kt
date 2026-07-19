@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Chat
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.material.icons.filled.Radar
@@ -116,7 +117,7 @@ fun NearbyScreen(
             )
             Spacer(modifier = Modifier.width(8.dp))
             IconButton(
-                onClick = { chatViewModel.restartOfflineMesh() },
+                onClick = { chatViewModel.restartP2P() },
                 modifier = Modifier.size(32.dp)
             ) {
                 Icon(
@@ -296,13 +297,26 @@ fun ConnectedDeviceRow(
 
                 if (friend?.isFriend != true) {
                     Spacer(modifier = Modifier.width(8.dp))
-                    IconButton(
-                        onClick = onAddFriend,
-                        colors = IconButtonDefaults.iconButtonColors(
-                            containerColor = MaterialTheme.colorScheme.secondary
-                        )
-                    ) {
-                        Icon(Icons.Default.PersonAdd, contentDescription = "Add Friend", tint = Color.White)
+                    if (friend?.isOutgoingRequest == true) {
+                        IconButton(
+                            onClick = { },
+                            enabled = false,
+                            colors = IconButtonDefaults.iconButtonColors(
+                                disabledContainerColor = Color.Gray,
+                                disabledContentColor = Color.White
+                            )
+                        ) {
+                            Icon(Icons.Default.Check, contentDescription = "Sent")
+                        }
+                    } else {
+                        IconButton(
+                            onClick = onAddFriend,
+                            colors = IconButtonDefaults.iconButtonColors(
+                                containerColor = MaterialTheme.colorScheme.secondary
+                            )
+                        ) {
+                            Icon(Icons.Default.PersonAdd, contentDescription = "Add Friend", tint = Color.White)
+                        }
                     }
                 }
             }
@@ -373,22 +387,44 @@ fun NearbyDeviceRow(
 
                 if (friend?.isFriend != true) {
                     Spacer(modifier = Modifier.width(8.dp))
-                    Button(
-                        onClick = onAddFriend,
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.secondary
-                        ),
-                        shape = RoundedCornerShape(12.dp),
-                        contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp),
-                        modifier = Modifier.height(38.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.PersonAdd,
-                            contentDescription = "Add Friend",
-                            modifier = Modifier.size(16.dp)
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text("Add", fontSize = 12.sp, color = Color.White)
+                    if (friend?.isOutgoingRequest == true) {
+                        Button(
+                            onClick = { },
+                            enabled = false,
+                            colors = ButtonDefaults.buttonColors(
+                                disabledContainerColor = Color.Gray,
+                                disabledContentColor = Color.White
+                            ),
+                            shape = RoundedCornerShape(12.dp),
+                            contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp),
+                            modifier = Modifier.height(38.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Check,
+                                contentDescription = "Sent",
+                                modifier = Modifier.size(16.dp)
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text("Sent", fontSize = 12.sp)
+                        }
+                    } else {
+                        Button(
+                            onClick = onAddFriend,
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.secondary
+                            ),
+                            shape = RoundedCornerShape(12.dp),
+                            contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp),
+                            modifier = Modifier.height(38.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.PersonAdd,
+                                contentDescription = "Add Friend",
+                                modifier = Modifier.size(16.dp)
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text("Add", fontSize = 12.sp, color = Color.White)
+                        }
                     }
                 }
             }

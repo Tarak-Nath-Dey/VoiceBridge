@@ -18,8 +18,7 @@ import kotlinx.coroutines.flow.map
 fun MainScreen(
     userViewModel: UserViewModel,
     chatViewModel: ChatViewModel,
-    onNavigateToChat: (String) -> Unit,
-    onNavigateToQr: () -> Unit
+    onNavigateToChat: (String) -> Unit
 ) {
     var selectedTab by remember { mutableIntStateOf(3) } // Default to Chats Tab (index 3)
     val userState by userViewModel.userFlow.collectAsState(initial = null)
@@ -51,12 +50,6 @@ fun MainScreen(
                     )
                 },
                 actions = {
-                    if (selectedTab == 2) {
-                        // QR Add Button on Friends tab
-                        IconButton(onClick = onNavigateToQr) {
-                            Icon(Icons.Default.QrCodeScanner, contentDescription = "Add Friend via QR")
-                        }
-                    }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.background,
@@ -162,7 +155,7 @@ fun MainScreen(
                 1 -> EveryoneScreen(chatViewModel = chatViewModel)
                 2 -> FriendsScreen(chatViewModel = chatViewModel, onNavigateToChat = onNavigateToChat)
                 3 -> ChatsScreen(chatViewModel = chatViewModel, onNavigateToChat = onNavigateToChat)
-                4 -> ProfileScreen(userViewModel = userViewModel, onNavigateToQr = onNavigateToQr)
+                4 -> ProfileScreen(userViewModel = userViewModel)
                 5 -> SettingsScreen(userViewModel = userViewModel, chatViewModel = chatViewModel)
             }
         }
