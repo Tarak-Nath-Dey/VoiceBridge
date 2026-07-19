@@ -1,0 +1,6 @@
+[
+    {
+        "merged": "com.voicebridge.app-debug-4:/xml_file_paths.xml.flat",
+        "source": "com.voicebridge.app-main-6:/xml/file_paths.xml"
+    }
+]
